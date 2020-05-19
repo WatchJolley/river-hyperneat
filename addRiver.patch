@@ -1,0 +1,71 @@
++++ ./Hypercube_NEAT/CMakeLists.txt
+@@ -307,6 +307,9 @@
+ SOURCE_GROUP("Experiment Header Files" REGULAR_EXPRESSION include/Experiments/)
+ SOURCE_GROUP("Experiment Source Files" REGULAR_EXPRESSION src/Experiments/)
+ 
++SOURCE_GROUP("River Header Files" REGULAR_EXPRESSION include/River/)
++SOURCE_GROUP("River Source Files" REGULAR_EXPRESSION src/River/)
++
+ ADD_LIBRARY(
+ 	Hypercube_NEAT_Base
+ 	STATIC
+@@ -359,6 +362,15 @@
+ 	src/Experiments/HCUBE_BinaryCompressionExperiment.cpp
+ 	src/Experiments/HCUBE_LogicBuilderExperiment.cpp
+ 
++	src/River/RIVER_shunting.cpp
++	src/River/RIVER_dsworld.cpp
++	src/River/RIVER_animat.cpp
++	src/River/RIVER_defines.cpp
++	src/River/RIVER_ann.cpp
++	src/River/RIVER_neuron.cpp
++	src/River/RIVER_random.cpp
++	src/Experiments/HCUBE_rivercrossing.cpp
++
+ 	include/HCUBE_Boost.h
+ 	include/HCUBE_Defines.h
+ 	include/HCUBE_EvaluationPanel.h
+@@ -376,6 +388,15 @@
+ 	include/HCUBE_NeuralNetworkWeightGrid.h
+ 	include/HCUBE_ViewIndividualFrame.h
+ 
++	include/River/RIVER_defines.h
++	include/River/RIVER_shunting.h
++	include/River/RIVER_dsworld.h
++	include/River/RIVER_animat.h
++	include/River/RIVER_ann.h
++	include/River/RIVER_neuron.h
++	include/River/RIVER_random.h
++	include/Experiments/HCUBE_rivercrossing.h
++
+ 	include/Experiments/HCUBE_XorExperiment.h
+ 	include/Experiments/HCUBE_XorCoExperiment.h
+ 	include/Experiments/HCUBE_Experiment.h
++++ Hypercube_NEAT/include/HCUBE_Defines.h
+@@ -163,6 +163,7 @@
+ #ifdef EPLEX_INTERNAL
+     EXPERIMENT_BINARY_COMPRESSION=29,                   //29
+ #endif
++    EXPERIMENT_RIVER_CROSSING=30,                       //30
+     EXPERIMENT_END
+ };
+ 
++++ Hypercube_NEAT/src/HCUBE_ExperimentRun.cpp
+@@ -39,6 +39,7 @@
+ #include "Experiments/HCUBE_GoExperiment.h"
+ #endif
+ #include "Experiments/HCUBE_CheckersExperimentSubstrateGeom.h"
++#include "Experiments/HCUBE_rivercrossing.h"
+ 
+ #ifndef HCUBE_NOGUI
+ #include "HCUBE_MainFrame.h"
+@@ -182,6 +183,9 @@
+             case EXPERIMENT_CHECKERS_SUBSTRATE_GEOM:
+                 experiments.push_back(shared_ptr<Experiment>(new CheckersExperimentSubstrateGeom("",a)));
+                 break;
++            case EXPERIMENT_RIVER_CROSSING:
++                experiments.push_back(shared_ptr<Experiment>(new RivercrossingExperiment("",a)));
++                break;
+             default:
+                 cout << string("ERROR: Unknown Experiment Type!\n");
+                 throw CREATE_LOCATEDEXCEPTION_INFO("ERROR: Unknown Experiment Type!");
